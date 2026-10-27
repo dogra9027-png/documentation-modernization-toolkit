@@ -1,0 +1,26 @@
+
+name: Validate Documentation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Convert sample HTML to Markdown
+        run: python scripts/convert_docs.py --input sample_source --output docs
+
+      - name: Validate Markdown documentation
+        run: python scripts/validate_docs.py
