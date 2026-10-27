@@ -1,17 +1,20 @@
 
 """Automated tests for the documentation search tool."""
 
-
+import importlib.util
 import tempfile
 import unittest
-import sys
 from pathlib import Path
 
-# Ensure the scripts directory is available when tests run in CI.
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from search_docs import load_articles, search_articles
+SCRIPT_PATH = Path(__file__).resolve().parent / "search_docs.py"
 
+spec = importlib.util.spec_from_file_location("search_docs", SCRIPT_PATH)
+search_docs = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(search_docs)
+
+load_articles = search_docs.load_articles
+search_articles = search_docs.search_articles
 
 
 class SearchDocsTests(unittest.TestCase):
@@ -55,7 +58,9 @@ class SearchDocsTests(unittest.TestCase):
         self.assertEqual(results, [])
 
     def test_respects_result_limit(self):
-        results = search_articles("account password access reset", self.articles, limit=1)
+        results = search_articles(
+            "account password access reset", self.articles, limit=1
+        )
         self.assertLessEqual(len(results), 1)
 
     def test_empty_query_returns_no_results(self):
