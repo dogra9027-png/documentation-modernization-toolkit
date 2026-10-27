@@ -1,11 +1,17 @@
 
 """Automated tests for the documentation search tool."""
 
+
 import tempfile
 import unittest
+import sys
 from pathlib import Path
 
+# Ensure the scripts directory is available when tests run in CI.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 from search_docs import load_articles, search_articles
+
 
 
 class SearchDocsTests(unittest.TestCase):
