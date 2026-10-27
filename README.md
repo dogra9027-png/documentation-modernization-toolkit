@@ -1,50 +1,101 @@
 # Documentation Modernization Toolkit
 
-A small portfolio project demonstrating a repeatable workflow for transforming sample legacy HTML documentation into Markdown suitable for a chatbot knowledge base.
+A practical Python-based portfolio project demonstrating documentation conversion, Markdown validation, keyword-based knowledge retrieval, and automated quality checks for documentation-as-code workflows.
 
-## What it demonstrates
-- Python scripting with the standard library
-- HTML-to-Markdown conversion for common documentation elements
-- Consistent YAML-style front matter
-- Validation of required metadata, internal links, and image references
-- Git-based documentation-as-code workflow
-- A foundation for CI validation with GitHub Actions
+## Project Overview
 
-## Scope and limitations
-This is a **local demo using sample HTML pages**, not a live Confluence integration. Real Confluence migrations require access to a Confluence export/API and environment-specific authentication. The converter intentionally handles a small, documented subset of HTML rather than every possible page layout.
+This project demonstrates how technical documentation can be prepared for use in a searchable knowledge base. It includes sample support articles, conversion and validation scripts, a search utility, and a Streamlit web interface.
 
-## Quick start
-Requires Python 3.10+.
+## Key Features
+
+- **Documentation conversion:** Convert sample HTML documentation into Markdown.
+- **Markdown validation:** Check documentation files for common quality issues.
+- **Knowledge retrieval:** Search Markdown articles using keyword matching and display relevant source content.
+- **Source references:** Display source filenames, match scores, and matched terms.
+- **Article browser:** Browse the available knowledge articles through a Streamlit interface.
+- **Automated checks:** Run validation, unit tests, and Python syntax checks with GitHub Actions.
+
+## Technology Stack
+
+- Python
+- Markdown and HTML
+- Streamlit
+- Git and GitHub
+- GitHub Actions
+- Python `unittest`
+
+## Repository Structure
+
+```text
+documentation-modernization-toolkit/
+├── .github/
+│   └── workflows/
+│       └── validate-docs.yml
+├── docs/
+│   ├── account-access.md
+│   └── password-reset.md
+├── sample_source/
+├── scripts/
+│   ├── convert_docs.py
+│   ├── validate_docs.py
+│   ├── search_docs.py
+│   └── test_search_docs.py
+├── app.py
+└── requirements.txt
+```
+
+## Run Locally
+
+### Prerequisites
+
+- Python 3.10 or compatible version
+- Git
+
+### Install dependencies
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### Launch the application
+
+```bash
+python -m streamlit run app.py
+```
+
+Use the application to search the sample support articles or browse them from the sidebar.
+
+## Run the Documentation Checks
+
+Convert the sample HTML files:
 
 ```bash
 python scripts/convert_docs.py --input sample_source --output docs
-python scripts/validate_docs.py --docs docs --report reports/validation-report.md
 ```
 
-The conversion script creates Markdown files in `docs/`. The validator writes a report and exits with a non-zero status if it finds errors.
+Validate the Markdown files:
 
-## Project structure
-```text
-documentation-modernization-toolkit/
-├── sample_source/       # Sample legacy HTML pages
-├── scripts/             # Conversion and validation utilities
-├── docs/                # Generated Markdown knowledge articles
-├── templates/           # Reusable article template
-├── standards/           # Migration and authoring standards
-├── reports/             # Validation report output
-└── .github/workflows/   # Automated validation
+```bash
+python scripts/validate_docs.py
 ```
 
-## Suggested demo
-1. Run the converter.
-2. Inspect generated Markdown and front matter.
-3. Run the validator and review the report.
-4. Deliberately break a link or remove a required metadata field, then rerun validation.
-5. Commit the changes to Git and explain the workflow in a portfolio walkthrough.
+Run the search tests:
 
-## Future enhancements
-- Parse a real Confluence HTML/XML export
-- Add richer table and macro handling
-- Add automated tests
-- Use GitHub Copilot to propose improvements, then review and test them
-- Publish with Backstage TechDocs or another documentation portal
+```bash
+python -m unittest discover -s scripts -p "test_*.py" -v
+```
+
+Check Python syntax:
+
+```bash
+python -m compileall -q scripts
+```
+
+## Current Limitations
+
+The search utility uses keyword matching. It does not generate answers with an LLM, use semantic embeddings, or connect to an external chatbot platform. The sample articles are demonstration content rather than production support documentation.
+
+## Purpose
+
+This portfolio project demonstrates practical skills in technical documentation, documentation-as-code, Python scripting, content validation, knowledge retrieval, testing, and continuous integration.
+
